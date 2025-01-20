@@ -44,7 +44,8 @@ main {
 
 /* --------------------  ------------------ */
 .btn {
-  width: 200px;
+  width: 100px;
+  font-weight: bolder;
   background-color: #4CBB17;
   color: #FFFFFF;
   border: none;

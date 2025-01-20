@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react"
-// import React from 'react'
+import { useEffect, useState, useRef } from "react"
+import React from 'react'
+import axios from 'axios'
 
 const Weather = () => {
 
     const [darkMode, setDarkMode] = useState(false)
+    const inputRef = useRef(null)
+    const [weatherData, setWeatherData] = useState([]);
 
     useEffect(() => {
         const body = document.body
@@ -17,6 +20,21 @@ const Weather = () => {
         }
     }, [darkMode])
 
+    const getCityName = async () => {
+        let cityName = inputRef.current.value;
+        console.log(cityName);
+        try {
+            let res = await axios.get(
+                `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=8ec477bf0b25bcd1dae01a2b3e7e75bd&units=metric`
+            );
+
+            setWeatherData([res.data, ...weatherData]);
+        } catch (e) {
+            console.log(e);
+        }
+
+    }
+
     return (
         <>
             <nav className="navbar pt-3 pb-3">
@@ -24,14 +42,9 @@ const Weather = () => {
                     <div className="col-3" id="toggle" onClick={() => darkMode === false ? setDarkMode(true) : setDarkMode(false)} >
                         <div className="toggle-inner" />
                     </div>
-                    <div className="col-5">
-                        <input type="text" className="searchBar" placeholder="Search for your preffered city..."></input>
-                    </div>
-                    <div className="col-3">
-                        <button className="btn p-1">
-                            <img src="./src/assets/current location icon.png" width={30} />
-                            <b className="ps-2">Current Location</b>
-                        </button>
+                    <div className="col-8">
+                        <input type="text" className="searchBar" placeholder="Search for your preffered city..." ref={inputRef}></input>
+                        <button className="btn m-1" onClick={getCityName}>Search</button>
                     </div>
                 </div>
             </nav>
@@ -40,7 +53,8 @@ const Weather = () => {
                 <div className="row g-0">
                     <div className="col-4">
                         <div className="p-5 shadow customCard">
-                            <h3>Athens</h3>
+                            <h3>k</h3>
+
                             <div className="large">09:03</div><p className="small">Thursday, 31 Aug</p>
                         </div>
 
